@@ -80,10 +80,19 @@ The backend uses boto3's standard AWS credential chain. Configure credentials
 outside this repository, for example through the AWS CLI or AWS IAM Identity
 Center. Never place access keys in source code or commit them to Git.
 
+This project uses the temporary AWS Console credential flow. Authenticate with:
+
+```bash
+~/.local/bin/aws login --region us-east-2
+```
+
+The AWS Free Plan project is assigned to `us-east-2`, so the API and DynamoDB
+table must use that Region.
+
 The application configuration defaults are:
 
 ```text
-AWS_REGION=ca-central-1
+AWS_REGION=us-east-2
 DYNAMODB_TABLE_NAME=etf-portfolio-dashboard-dev
 PORTFOLIO_ID=default
 ```
