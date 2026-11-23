@@ -67,3 +67,60 @@ With the virtual environment active and from the `backend/` directory:
 ```bash
 pytest
 ```
+
+## Stage 2: DynamoDB holdings
+
+The holdings API stores manually maintained ETF information in DynamoDB.
+`quantity`, `average_cost`, and `account` are optional. If omitted, those
+attributes are not written to DynamoDB and are not returned in API responses.
+
+### AWS configuration
+
+The backend uses boto3's standard AWS credential chain. Configure credentials
+outside this repository, for example through the AWS CLI or AWS IAM Identity
+Center. Never place access keys in source code or commit them to Git.
+
+The application configuration defaults are:
+
+```text
+AWS_REGION=ca-central-1
+DYNAMODB_TABLE_NAME=etf-portfolio-dashboard-dev
+PORTFOLIO_ID=default
+```
+
+Each value can be overridden with an environment variable. After AWS
+authentication is configured, create the on-demand development table from the
+`backend/` directory:
+
+```bash
+python scripts/create_dynamodb_table.py
+```
+
+The script is safe to run more than once: it leaves an existing table alone.
+
+### Holdings endpoints
+
+With the API running, the following routes are available:
+
+```text
+POST   /holdings
+GET    /holdings
+GET    /holdings/{holding_id}
+PUT    /holdings/{holding_id}
+DELETE /holdings/{holding_id}
+```
+
+Example request body without private position information:
+
+```json
+{
+  "ticker": "XGRO",
+  "exchange": "TSX",
+  "currency": "CAD",
+  "average_cost": "27.42"
+}
+```
+
+The latest market quote is intentionally not stored on a holding. It will be
+retrieved from a market-data provider in Stage 3 so the API can report its
+source, observation time, currency, and whether it is delayed.
