@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "etf-portfolio-dashboard-api"
+version = "0.1.0"
+description = "FastAPI backend for the ETF Portfolio Dashboard"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "fastapi>=0.129,<1.0",
+    "uvicorn[standard]>=0.41,<1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "httpx2>=2.0,<3.0",
+    "pytest>=9.0,<10.0",
+]
+
+[tool.setuptools.packages.find]
+include = ["app*"]
+exclude = ["tests*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
