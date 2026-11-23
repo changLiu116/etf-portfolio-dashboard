@@ -43,12 +43,16 @@ class HoldingRepository:
             KeyConditionExpression=(
                 Key("PK").eq(self._partition_key)
                 & Key("SK").begins_with("HOLDING#")
-            )
+            ),
+            ConsistentRead=True,
         )
         return [self._from_item(item) for item in response.get("Items", [])]
 
     def get(self, holding_id: str) -> HoldingResponse | None:
-        response = self._table.get_item(Key=self._key(holding_id))
+        response = self._table.get_item(
+            Key=self._key(holding_id),
+            ConsistentRead=True,
+        )
         item = response.get("Item")
         return self._from_item(item) if item else None
 

@@ -18,7 +18,7 @@ def test_create_omits_private_fields_and_preserves_decimal_numbers() -> None:
     ):
         repository = HoldingRepository(
             table_name="test-table",
-            region_name="ca-central-1",
+            region_name="us-east-2",
             portfolio_id="default",
         )
 

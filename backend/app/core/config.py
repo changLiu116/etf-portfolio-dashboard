@@ -18,7 +18,7 @@ class Settings:
 def get_settings() -> Settings:
     """Read settings once per application process."""
     return Settings(
-        aws_region=os.getenv("AWS_REGION", "ca-central-1"),
+        aws_region=os.getenv("AWS_REGION", "us-east-2"),
         dynamodb_table_name=os.getenv(
             "DYNAMODB_TABLE_NAME",
             "etf-portfolio-dashboard-dev",
